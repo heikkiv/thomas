@@ -2,6 +2,6 @@ package com.heikkiv.ml.thomas
 
 interface Classifier {
 
-    public int getCategory(def input)
+    public String classify(String document)
 
 }

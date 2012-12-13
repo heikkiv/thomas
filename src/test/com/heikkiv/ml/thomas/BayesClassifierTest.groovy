@@ -35,4 +35,11 @@ class BayesClassifierTest {
         assertEquals(0.166, cl.getWeightedFeatureProbability('money', 'good'), 0.001)
     }
 
+    @Test
+    void totalItemCount() {
+        BayesClassifier cl = new BayesClassifier()
+        cl.sampleTrain()
+        assertEquals(5, cl.getTotalItemCount())
+    }
+
 }

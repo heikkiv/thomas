@@ -58,12 +58,26 @@ class BayesClassifier {
         }
     }
 
+    /**
+     * Number of items in given category
+     *
+     * @param category
+     * @return
+     */
     public int getCategoryCount(String category) {
         if (categoryCounts[category]) {
             return categoryCounts[category]
         } else {
             return 0
         }
+    }
+
+    public int getTotalItemCount() {
+        int n = 0
+        categoryCounts.keySet().each { category ->
+            n += getCategoryCount(category)
+        }
+        return n
     }
 
     public void train(String item, String category) {
@@ -74,11 +88,15 @@ class BayesClassifier {
         incrementClassificationCount(category)
     }
 
-    private List<String> getFeatures(String item) {
+    protected List<String> getFeatures(String item) {
         return item.split() as List;
     }
 
-    private void incrementFeatureCount(String feature, String category) {
+    protected List<String> getCategories() {
+        return categoryCounts.keySet() as List;
+    }
+
+    protected void incrementFeatureCount(String feature, String category) {
         if (!featureCounts[feature]) {
             featureCounts[feature] = [:]
         }
@@ -97,7 +115,7 @@ class BayesClassifier {
         }
     }
 
-    def sampleTrain() {
+    public void sampleTrain() {
         train('Nobody owns the water.','good')
         train('the quick rabbit jumps fences','good')
         train('buy pharmaceuticals now','bad')
