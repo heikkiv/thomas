@@ -13,7 +13,8 @@ class NaiveBayesClassifier extends BayesClassifier implements Classifier {
     }
 
     /**
-     * Probability that the given document belongs to given category
+     * Conditional probability for document given category
+     * P( document | category )
      *
      * @param document
      * @param category
@@ -29,14 +30,15 @@ class NaiveBayesClassifier extends BayesClassifier implements Classifier {
     }
 
     /**
-     * Probability for the given category given the document
+     * Conditional probability for category given document
+     * P( category | document )
      *
      * @param document
      * @param category
      * @return
      */
     public double probability(String category, String document) {
-        double categoryProbability = getCategoryCount(category) / getTotalItemCount()
+        double categoryProbability = getItemCountInCategory(category) / getTotalItemCount()
         double documentProbability = documentProbability(document, category)
         return documentProbability * categoryProbability
     }

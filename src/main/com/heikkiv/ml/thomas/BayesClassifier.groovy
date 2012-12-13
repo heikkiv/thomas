@@ -16,10 +16,10 @@ class BayesClassifier {
      * @return
      */
     public double getFeatureProbability(String feature, String category) {
-        if (getCategoryCount(category) == 0) {
+        if (getItemCountInCategory(category) == 0) {
             return 0
         } else {
-            return getFeatureCount(feature, category) / getCategoryCount(category)
+            return getFeatureCountInCategory(feature, category) / getItemCountInCategory(category)
         }
     }
 
@@ -41,12 +41,12 @@ class BayesClassifier {
     public int getFeatureCountInAllCategories(String feature) {
         int n = 0
         categoryCounts.keySet().each { category ->
-            n += getFeatureCount(feature, category)
+            n += getFeatureCountInCategory(feature, category)
         }
         return n
     }
 
-    public int getFeatureCount(String feature, String category) {
+    public int getFeatureCountInCategory(String feature, String category) {
         if (featureCounts[feature]) {
             if (featureCounts[feature][category]) {
                 return featureCounts[feature][category]
@@ -64,7 +64,7 @@ class BayesClassifier {
      * @param category
      * @return
      */
-    public int getCategoryCount(String category) {
+    public int getItemCountInCategory(String category) {
         if (categoryCounts[category]) {
             return categoryCounts[category]
         } else {
@@ -75,7 +75,7 @@ class BayesClassifier {
     public int getTotalItemCount() {
         int n = 0
         categoryCounts.keySet().each { category ->
-            n += getCategoryCount(category)
+            n += getItemCountInCategory(category)
         }
         return n
     }
@@ -90,10 +90,6 @@ class BayesClassifier {
 
     protected List<String> getFeatures(String item) {
         return item.split() as List;
-    }
-
-    protected List<String> getCategories() {
-        return categoryCounts.keySet() as List;
     }
 
     protected void incrementFeatureCount(String feature, String category) {
@@ -121,6 +117,10 @@ class BayesClassifier {
         train('buy pharmaceuticals now','bad')
         train('make quick money at the online casino','bad')
         train('the quick brown fox jumps','good')
+    }
+
+    protected List<String> getCategories() {
+        return categoryCounts.keySet() as List;
     }
 
 }

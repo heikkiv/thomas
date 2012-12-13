@@ -10,13 +10,13 @@ class BayesClassifierTest {
         BayesClassifier cl = new BayesClassifier()
         cl.train('the quick brown fox jumps over the lazy dog', 'good')
         cl.train('make quick money in the online casino', 'bad')
-        assertEquals(cl.getFeatureCount('the', 'good'), 2)
-        assertEquals(cl.getFeatureCount('the','bad'), 1)
-        assertEquals(cl.getFeatureCount('make','bad'), 1)
-        assertEquals(cl.getFeatureCount('casino','good'), 0)
-        assertEquals(cl.getCategoryCount('good'), 1)
-        assertEquals(cl.getCategoryCount('bad'), 1)
-        assertEquals(cl.getCategoryCount('worse'), 0)
+        assertEquals(cl.getFeatureCountInCategory('the', 'good'), 2)
+        assertEquals(cl.getFeatureCountInCategory('the','bad'), 1)
+        assertEquals(cl.getFeatureCountInCategory('make','bad'), 1)
+        assertEquals(cl.getFeatureCountInCategory('casino','good'), 0)
+        assertEquals(cl.getItemCountInCategory('good'), 1)
+        assertEquals(cl.getItemCountInCategory('bad'), 1)
+        assertEquals(cl.getItemCountInCategory('worse'), 0)
     }
 
     @Test
