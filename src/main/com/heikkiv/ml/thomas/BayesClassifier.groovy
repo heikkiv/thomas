@@ -70,17 +70,13 @@ class BayesClassifier {
     public void train(String document, String category) {
         def features = getFeatures(document)
         features.each { feature ->
-            incrementFeatureCount(feature, category)
+            repository.incrementFeatureCount(feature, category)
         }
         repository.incrementClassificationCount(category)
     }
 
     protected List<String> getFeatures(String document) {
         return document.split() as List;
-    }
-
-    protected void incrementFeatureCount(String feature, String category) {
-        repository.incrementFeatureCount(feature, category)
     }
 
     public void sampleTrain() {
