@@ -1,4 +1,4 @@
-package com.heikkiv.ml.thomas.mongo
+package com.heikkiv.ml.thomas
 
 class HashMapBayesClassifierRepository implements BayesClassifierRepository {
 

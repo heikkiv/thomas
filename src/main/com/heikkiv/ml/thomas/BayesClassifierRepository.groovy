@@ -1,4 +1,4 @@
-package com.heikkiv.ml.thomas.mongo
+package com.heikkiv.ml.thomas
 
 public interface BayesClassifierRepository {
 

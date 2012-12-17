@@ -1,8 +1,5 @@
 package com.heikkiv.ml.thomas
 
-import com.heikkiv.ml.thomas.mongo.BayesClassifierRepository
-import com.heikkiv.ml.thomas.mongo.HashMapBayesClassifierRepository
-
 class BayesClassifier {
 
     def assumedProbability = 0.5 // aka. Prior probability
