@@ -31,11 +31,15 @@ class MongoBayesClassifierRepository implements BayesClassifierRepository {
 
     @Override
     void incrementFeatureCount(String feature, String category) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        def cat = 'categories.' + category
+        def update = ['$inc': [:]]
+        update['$inc'][cat] = 1
+        db.features.update([feature: feature], update, true)
     }
 
     @Override
     int getFeatureCountInCategory(String feature, String category) {
-        return 0  //To change body of implemented methods use File | Settings | File Templates.
+        def doc = db.features.findOne([feature: feature])
+        return (doc && doc.categories[category]) ? doc.categories[category] : 0
     }
 }

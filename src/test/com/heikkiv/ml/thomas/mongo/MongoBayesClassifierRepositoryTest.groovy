@@ -29,11 +29,17 @@ public class MongoBayesClassifierRepositoryTest {
 
     @Test
     public void testIncrementFeatureCount() throws Exception {
-
+        MongoBayesClassifierRepository repo = new MongoBayesClassifierRepository()
+        int n = repo.getFeatureCountInCategory('koira', 'bad')
+        repo.incrementFeatureCount('koira', 'bad')
+        int m = repo.getFeatureCountInCategory('koira', 'bad')
+        assertEquals(n+1, m)
     }
 
     @Test
     public void testGetFeatureCountInCategory() throws Exception {
-
+        MongoBayesClassifierRepository repo = new MongoBayesClassifierRepository()
+        int n = repo.getFeatureCountInCategory('kissa', 'good')
+        assertEquals(2, n)
     }
 }
