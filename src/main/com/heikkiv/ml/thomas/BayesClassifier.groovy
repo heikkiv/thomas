@@ -80,16 +80,16 @@ class BayesClassifier {
         return n
     }
 
-    public void train(String item, String category) {
-        def features = getFeatures(item)
+    public void train(String document, String category) {
+        def features = getFeatures(document)
         features.each { feature ->
             incrementFeatureCount(feature, category)
         }
         incrementClassificationCount(category)
     }
 
-    protected List<String> getFeatures(String item) {
-        return item.split() as List;
+    protected List<String> getFeatures(String document) {
+        return document.split() as List;
     }
 
     protected void incrementFeatureCount(String feature, String category) {
