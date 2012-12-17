@@ -1,12 +1,17 @@
 package com.heikkiv.ml.thomas
 
+import com.heikkiv.ml.thomas.mongo.CategoryRepository
+import com.heikkiv.ml.thomas.mongo.FeatureRepository
+import com.heikkiv.ml.thomas.mongo.HashMapCategoryRepository
+import com.heikkiv.ml.thomas.mongo.HashMapFeatureRepository
+
 class BayesClassifier {
 
     def assumedProbability = 0.5 // aka. Prior probability
     def weight = 1
 
-    def featureCounts = [:]
-    def categoryCounts = [:]
+    CategoryRepository categoryRepository = new HashMapCategoryRepository()
+    FeatureRepository featureRepository = new HashMapFeatureRepository()
 
     /**
      * Probability that a document in given category will contain the given feature (word)
@@ -40,22 +45,14 @@ class BayesClassifier {
 
     public int getFeatureCountInAllCategories(String feature) {
         int n = 0
-        categoryCounts.keySet().each { category ->
+        categoryRepository.getCategories().each { category ->
             n += getFeatureCountInCategory(feature, category)
         }
         return n
     }
 
     public int getFeatureCountInCategory(String feature, String category) {
-        if (featureCounts[feature]) {
-            if (featureCounts[feature][category]) {
-                return featureCounts[feature][category]
-            } else {
-                return 0
-            }
-        } else {
-            return 0
-        }
+        featureRepository.getFeatureCountInCategory(feature, category)
     }
 
     /**
@@ -65,16 +62,12 @@ class BayesClassifier {
      * @return
      */
     public int getItemCountInCategory(String category) {
-        if (categoryCounts[category]) {
-            return categoryCounts[category]
-        } else {
-            return 0
-        }
+        categoryRepository.getItemCountInCategory(category)
     }
 
     public int getTotalItemCount() {
         int n = 0
-        categoryCounts.keySet().each { category ->
+        categoryRepository.getCategories().each { category ->
             n += getItemCountInCategory(category)
         }
         return n
@@ -85,7 +78,7 @@ class BayesClassifier {
         features.each { feature ->
             incrementFeatureCount(feature, category)
         }
-        incrementClassificationCount(category)
+        categoryRepository.incrementClassificationCount(category)
     }
 
     protected List<String> getFeatures(String document) {
@@ -93,22 +86,7 @@ class BayesClassifier {
     }
 
     protected void incrementFeatureCount(String feature, String category) {
-        if (!featureCounts[feature]) {
-            featureCounts[feature] = [:]
-        }
-        if (featureCounts[feature][category]) {
-            featureCounts[feature][category] += 1
-        } else {
-            featureCounts[feature][category] = 1
-        }
-    }
-
-    private void incrementClassificationCount(String category) {
-        if (categoryCounts[category]) {
-            categoryCounts[category] += 1
-        } else {
-            categoryCounts[category] = 1
-        }
+        featureRepository.incrementFeatureCount(feature, category)
     }
 
     public void sampleTrain() {
@@ -119,8 +97,8 @@ class BayesClassifier {
         train('the quick brown fox jumps','good')
     }
 
-    protected List<String> getCategories() {
-        return categoryCounts.keySet() as List;
+    protected Set<String> getCategories() {
+        return categoryRepository.getCategories()
     }
 
 }
