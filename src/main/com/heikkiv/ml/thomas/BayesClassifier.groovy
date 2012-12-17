@@ -1,17 +1,14 @@
 package com.heikkiv.ml.thomas
 
-import com.heikkiv.ml.thomas.mongo.CategoryRepository
-import com.heikkiv.ml.thomas.mongo.FeatureRepository
-import com.heikkiv.ml.thomas.mongo.HashMapCategoryRepository
-import com.heikkiv.ml.thomas.mongo.HashMapFeatureRepository
+import com.heikkiv.ml.thomas.mongo.BayesClassifierRepository
+import com.heikkiv.ml.thomas.mongo.HashMapBayesClassifierRepository
 
 class BayesClassifier {
 
     def assumedProbability = 0.5 // aka. Prior probability
     def weight = 1
 
-    CategoryRepository categoryRepository = new HashMapCategoryRepository()
-    FeatureRepository featureRepository = new HashMapFeatureRepository()
+    BayesClassifierRepository repository = new HashMapBayesClassifierRepository()
 
     /**
      * Probability that a document in given category will contain the given feature (word)
@@ -45,14 +42,14 @@ class BayesClassifier {
 
     public int getFeatureCountInAllCategories(String feature) {
         int n = 0
-        categoryRepository.getCategories().each { category ->
+        repository.getCategories().each { category ->
             n += getFeatureCountInCategory(feature, category)
         }
         return n
     }
 
     public int getFeatureCountInCategory(String feature, String category) {
-        featureRepository.getFeatureCountInCategory(feature, category)
+        repository.getFeatureCountInCategory(feature, category)
     }
 
     /**
@@ -62,12 +59,12 @@ class BayesClassifier {
      * @return
      */
     public int getItemCountInCategory(String category) {
-        categoryRepository.getItemCountInCategory(category)
+        repository.getItemCountInCategory(category)
     }
 
     public int getTotalItemCount() {
         int n = 0
-        categoryRepository.getCategories().each { category ->
+        repository.getCategories().each { category ->
             n += getItemCountInCategory(category)
         }
         return n
@@ -78,7 +75,7 @@ class BayesClassifier {
         features.each { feature ->
             incrementFeatureCount(feature, category)
         }
-        categoryRepository.incrementClassificationCount(category)
+        repository.incrementClassificationCount(category)
     }
 
     protected List<String> getFeatures(String document) {
@@ -86,7 +83,7 @@ class BayesClassifier {
     }
 
     protected void incrementFeatureCount(String feature, String category) {
-        featureRepository.incrementFeatureCount(feature, category)
+        repository.incrementFeatureCount(feature, category)
     }
 
     public void sampleTrain() {
@@ -98,7 +95,7 @@ class BayesClassifier {
     }
 
     protected Set<String> getCategories() {
-        return categoryRepository.getCategories()
+        return repository.getCategories()
     }
 
 }
