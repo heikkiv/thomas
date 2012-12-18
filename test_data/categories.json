@@ -1,0 +1,2 @@
+{ "_id" : ObjectId("50cf8c62f5bd5db0300788cd"), "category" : "some_category", "documentCount" : 3 }
+{ "_id" : ObjectId("50cf9219c66900aa71cd2534"), "category" : "test_category", "documentCount" : 15 }

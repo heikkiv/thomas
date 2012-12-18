@@ -1,0 +1,2 @@
+{ "_id" : ObjectId("50cf95628996cc8fb327ab6e"), "feature" : "kissa", "categories" : { "good" : 2, "bad" : 5 } }
+{ "_id" : ObjectId("50cf97ecc66900aa71cd2537"), "categories" : { "bad" : 2 }, "feature" : "koira" }
