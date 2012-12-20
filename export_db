@@ -1,0 +1,3 @@
+#!/bin/sh
+mongoexport -h localhost -d thomas -c features -o features.json
+mongoexport -h localhost -d thomas -c categories -o categories.json

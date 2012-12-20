@@ -1,0 +1,3 @@
+#!/bin/sh
+mongoimport -h localhost -d thomas -c categories --drop categories.json
+mongoimport -h localhost -d thomas -c features --drop features.json
